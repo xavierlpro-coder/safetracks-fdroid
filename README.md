@@ -15,18 +15,24 @@ Dans F-Droid → **Paramètres → Dépôts → Ajouter un dépôt** (ou via QR 
 
 ## Mettre à jour le dépôt (nouvelle release)
 
-Workspace local (non versionné ici) : `C:\Users\xavierl\Workspace\safetracks-fdroid\`, contient
-`config.yml` + `keystore.p12` (clé de signature du **dépôt**, distincte de la clé de signature de
-l'app — à sauvegarder précieusement, sa perte empêche de publier une mise à jour crédible du dépôt).
+**Voie normale — automatisée en CI.** Pousser un tag `vX.Y.0` sur le dépôt principal SafeTracks déclenche
+`.github/workflows/release-fdroid.yml` : build + signature de l'APK, release GitHub avec l'APK en pièce
+jointe, puis mise à jour de **ce** dépôt (`repo/` + `metadata/`) via une clé de déploiement SSH dédiée
+(accès write limité à ce seul dépôt). Rien ne se publie sans ce push de tag délibéré.
+
+**Voie de secours — manuelle, en local.** Workspace local (non versionné ici) :
+`C:\Users\xavierl\Workspace\safetracks-fdroid\`, contient `config.yml` + `keystore.p12` (clé de signature
+du **dépôt**, distincte de la clé de signature de l'app — à sauvegarder précieusement, sa perte empêche de
+publier une mise à jour crédible du dépôt).
 
 1. Builder l'APK release signé côté SafeTracks (`assembleRelease`, cf. `docs/GUIDE-PUBLICATION.md`).
 2. Copier l'APK dans `repo/` sous le nom `com.safetracks_<versionCode>.apk`.
 3. Depuis le workspace local (Windows — `apksigner`/`jarsigner`/`keytool` n'y sont pas détectés
-   nativement par fdroidserver, d'où le wrapper) :
+   nativement par fdroidserver, d'où le wrapper ; inutile côté CI, qui tourne sur Linux) :
    ```
    python _fdroid_win_wrapper.py update
    ```
-4. Committer/pousser le contenu de `repo/` (ce dépôt Git).
+4. Committer/pousser le contenu de `repo/` et `metadata/` (ce dépôt Git).
 
 Voir `docs/BACKLOG.md` (idée **I55**) et `docs/NOTE-COMPAT-EMUI12.md` dans le dépôt principal
 SafeTracks pour le contexte complet.
