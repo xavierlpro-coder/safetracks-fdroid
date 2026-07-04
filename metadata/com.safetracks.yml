@@ -1,0 +1,18 @@
+AuthorName: Xavier Lerouvreur
+Categories:
+  - Navigation
+License: Apache-2.0
+CurrentVersionCode: 1
+IssueTracker: ''
+Name: SafeTracks
+SourceCode: ''
+Summary: Import et visualisation de traces GPX, avec analyse des restrictions vélo
+Description: |-
+  SafeTracks permet d'importer, visualiser et éditer des traces GPS au format GPX
+  sur une carte interactive. L'application analyse à la demande les portions de
+  trace empruntant des voies à accès restreint pour le vélo (données MapUtagawa/OSM)
+  et les met en évidence sur la carte (vert/orange/rouge).
+
+  Aucune dépendance Google Play Services : localisation via l'API AOSP standard,
+  fonds de carte sur serveurs publics (OSM, MapUtagawa, IGN).
+WebSite: ''
